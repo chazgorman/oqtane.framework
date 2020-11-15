@@ -111,12 +111,12 @@ namespace Oqtane.Controllers
             if (_userPermissions.IsAuthorized(User, EntityNames.Page, pageid, PermissionNames.Edit))
             {
                 int order = 1;
-                List<PageModule> pagemodules = _pageModules.GetPageModules(pageid, pane).OrderBy(item => item.Order).ToList();
+                List<PageModule> pagemodules = _pageModules.GetPageModules(pageid, pane).OrderBy(item => item.OrderVal).ToList();
                 foreach (PageModule pagemodule in pagemodules)
                 {
-                    if (pagemodule.Order != order)
+                    if (pagemodule.OrderVal != order)
                     {
-                        pagemodule.Order = order;
+                        pagemodule.OrderVal = order;
                         _pageModules.UpdatePageModule(pagemodule);
                     }
                     order += 2;

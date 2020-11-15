@@ -189,11 +189,11 @@ namespace Oqtane.Controllers
             {
                 int order = 1;
                 List<Folder> folders = _folders.GetFolders(siteid).ToList();
-                foreach (Folder folder in folders.Where(item => item.ParentId == parentid).OrderBy(item => item.Order))
+                foreach (Folder folder in folders.Where(item => item.ParentId == parentid).OrderBy(item => item.OrderVal))
                 {
-                    if (folder.Order != order)
+                    if (folder.OrderVal != order)
                     {
-                        folder.Order = order;
+                        folder.OrderVal = order;
                         _folders.UpdateFolder(folder);
                     }
                     order += 2;

@@ -65,7 +65,7 @@ namespace Oqtane.Controllers
                     module.PageId = pagemodule.PageId;
                     module.Title = pagemodule.Title;
                     module.Pane = pagemodule.Pane;
-                    module.Order = pagemodule.Order;
+                    module.OrderVal = pagemodule.OrderVal;
                     module.ContainerType = pagemodule.ContainerType;
 
                     module.ModuleDefinition = moduledefinitions.Find(item => item.ModuleDefinitionName == module.ModuleDefinitionName);
@@ -138,7 +138,7 @@ namespace Oqtane.Controllers
                     {
                         if (page.PageId != pageModule.PageId && !page.Path.StartsWith("admin/"))
                         {
-                            _pageModules.AddPageModule(new PageModule { PageId = page.PageId, ModuleId = pageModule.ModuleId, Title = pageModule.Title, Pane = pageModule.Pane, Order = pageModule.Order, ContainerType = pageModule.ContainerType });
+                            _pageModules.AddPageModule(new PageModule { PageId = page.PageId, ModuleId = pageModule.ModuleId, Title = pageModule.Title, Pane = pageModule.Pane, OrderVal = pageModule.OrderVal, ContainerType = pageModule.ContainerType });
                         }
                     }
                 }

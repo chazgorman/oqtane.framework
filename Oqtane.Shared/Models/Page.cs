@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -12,7 +12,7 @@ namespace Oqtane.Models
         public string Name { get; set; }
         public string Title { get; set; }
         public string Path { get; set; }
-        public int Order { get; set; }
+        public int OrderVal { get; set; }
         public string Url { get; set; }
         public string ThemeType { get; set; }
         public string LayoutType { get; set; }

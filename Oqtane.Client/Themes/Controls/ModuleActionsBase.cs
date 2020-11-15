@@ -111,7 +111,7 @@ namespace Oqtane.Themes.Controls
         {
             string oldPane = pagemodule.Pane;
             pagemodule.Pane = newPane;
-            pagemodule.Order = int.MaxValue; // add to bottom of pane
+            pagemodule.OrderVal = int.MaxValue; // add to bottom of pane
             await PageModuleService.UpdatePageModuleAsync(pagemodule);
             await PageModuleService.UpdatePageModuleOrderAsync(pagemodule.PageId, pagemodule.Pane);
             await PageModuleService.UpdatePageModuleOrderAsync(pagemodule.PageId, oldPane);
@@ -171,7 +171,7 @@ namespace Oqtane.Themes.Controls
 
         private async Task<string> MoveTop(string s, PageModule pagemodule)
         {
-            pagemodule.Order = 0;
+            pagemodule.OrderVal = 0;
             await PageModuleService.UpdatePageModuleAsync(pagemodule);
             await PageModuleService.UpdatePageModuleOrderAsync(pagemodule.PageId, pagemodule.Pane);
             return s;
@@ -179,7 +179,7 @@ namespace Oqtane.Themes.Controls
 
         private async Task<string> MoveBottom(string s, PageModule pagemodule)
         {
-            pagemodule.Order = int.MaxValue;
+            pagemodule.OrderVal = int.MaxValue;
             await PageModuleService.UpdatePageModuleAsync(pagemodule);
             await PageModuleService.UpdatePageModuleOrderAsync(pagemodule.PageId, pagemodule.Pane);
             return s;
@@ -187,7 +187,7 @@ namespace Oqtane.Themes.Controls
 
         private async Task<string> MoveUp(string s, PageModule pagemodule)
         {
-            pagemodule.Order -= 3;
+            pagemodule.OrderVal -= 3;
             await PageModuleService.UpdatePageModuleAsync(pagemodule);
             await PageModuleService.UpdatePageModuleOrderAsync(pagemodule.PageId, pagemodule.Pane);
             return s;
@@ -195,7 +195,7 @@ namespace Oqtane.Themes.Controls
 
         private async Task<string> MoveDown(string s, PageModule pagemodule)
         {
-            pagemodule.Order += 3;
+            pagemodule.OrderVal += 3;
             await PageModuleService.UpdatePageModuleAsync(pagemodule);
             await PageModuleService.UpdatePageModuleOrderAsync(pagemodule.PageId, pagemodule.Pane);
             return s;

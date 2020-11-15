@@ -105,7 +105,7 @@ namespace Oqtane.Services
                     getPath(pageList, child);
                 }
             };
-            pages = pages.OrderBy(item => item.Order).ToList();
+            pages = pages.OrderBy(item => item.OrderVal).ToList();
             getPath(pages, null);
 
             // add any non-hierarchical items to the end of the list

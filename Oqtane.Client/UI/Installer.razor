@@ -1,4 +1,4 @@
-﻿@namespace Oqtane.UI
+@namespace Oqtane.UI
 @inject NavigationManager NavigationManager
 @inject IInstallationService InstallationService
 @inject ISiteService SiteService
@@ -26,6 +26,7 @@
                             <select class="custom-select" @bind="@_databaseType">
                                 <option value="LocalDB">Local Database</option>
                                 <option value="SQLServer">SQL Server</option>
+                                <option value="Postgres">Postgres</option>
                             </select>
                         </td>
                     </tr>
@@ -125,7 +126,7 @@
     </div>
 </div>
 
-@code {
+@code { 
     private string _databaseType = "LocalDB";
     private string _serverName = "(LocalDb)\\MSSQLLocalDB";
     private string _databaseName = "Oqtane-" + DateTime.UtcNow.ToString("yyyyMMddHHmm");
@@ -166,6 +167,10 @@
             if (_databaseType == "LocalDB")
             {
                 connectionstring = "Data Source=" + _serverName + ";AttachDbFilename=|DataDirectory|\\" + _databaseName + ".mdf;Initial Catalog=" + _databaseName + ";Integrated Security=SSPI;";
+            }
+            else if (_databaseType == "Postgres")
+            {
+                connectionstring = "Username=oqtane;Password=Dagmar2020;Host=localhost;Port=5432;Database=oqtane;";
             }
             else
             {
@@ -209,6 +214,5 @@
         {
             _message = "Please Enter All Fields And Ensure Passwords Match And Are Greater Than 5 Characters In Length";
         }
-    }
-
+    } 
 }

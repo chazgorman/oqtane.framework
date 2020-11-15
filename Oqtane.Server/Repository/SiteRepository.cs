@@ -672,7 +672,7 @@ namespace Oqtane.Repository
 
             Folder folder = _folderRepository.AddFolder(new Folder
             {
-                SiteId = site.SiteId, ParentId = null, Name = "Root", Path = "", Order = 1, IsSystem = true,
+                SiteId = site.SiteId, ParentId = null, Name = "Root", Path = "", OrderVal = 1, IsSystem = true,
                 Permissions = new List<Permission>
                 {
                     new Permission(PermissionNames.Browse, RoleNames.Admin, true),
@@ -682,7 +682,7 @@ namespace Oqtane.Repository
             });
             _folderRepository.AddFolder(new Folder
             {
-                SiteId = site.SiteId, ParentId = folder.FolderId, Name = "Users", Path = Utilities.PathCombine("Users",Path.DirectorySeparatorChar.ToString()), Order = 1, IsSystem = true,
+                SiteId = site.SiteId, ParentId = folder.FolderId, Name = "Users", Path = Utilities.PathCombine("Users",Path.DirectorySeparatorChar.ToString()), OrderVal = 1, IsSystem = true,
                 Permissions = new List<Permission>
                 {
                     new Permission(PermissionNames.Browse, RoleNames.Admin, true),
@@ -746,7 +746,7 @@ namespace Oqtane.Repository
                     Name = pagetemplate.Name,
                     Title = "",
                     Path = pagetemplate.Path,
-                    Order = 1,
+                    OrderVal = 1,
                     Url = "",
                     IsNavigation = pagetemplate.IsNavigation,
                     ThemeType = "",
@@ -798,7 +798,7 @@ namespace Oqtane.Repository
                                 ModuleId = module.ModuleId,
                                 Title = pagetemplatemodule.Title,
                                 Pane = pagetemplatemodule.Pane,
-                                Order = 1,
+                                OrderVal = 1,
                                 ContainerType = ""
                             };
                             _pageModuleRepository.AddPageModule(pagemodule);

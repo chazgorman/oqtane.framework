@@ -96,7 +96,7 @@ namespace Oqtane.Services
                     if (getPath != null) getPath(folderList, child);
                 }
             };
-            folders = folders.OrderBy(item => item.Order).ToList();
+            folders = folders.OrderBy(item => item.OrderVal).ToList();
             getPath(folders, null);
 
             // add any non-hierarchical items to the end of the list

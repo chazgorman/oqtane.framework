@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Oqtane.Modules.HtmlText.Models
 {
-    [Table("HtmlText")]
+    [Table("htmltext")]
     public class HtmlTextInfo : IAuditable
     {
         [Key]

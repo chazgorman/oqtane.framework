@@ -4,13 +4,6 @@ Version 2.0.0 Tenant migration script
 
 */
 
-ALTER TABLE  [dbo].[Page] 
-ALTER COLUMN [Path] [nvarchar](256) NOT NULL
-GO
-
-ALTER TABLE [dbo].[Profile] ADD
-	[Options] [nvarchar](2000) NULL
-GO
-
-UPDATE [dbo].[Profile] SET Options = ''
-GO
+ALTER TABLE Page ALTER Path TYPE varchar(256);
+ALTER TABLE Page ALTER Path SET NOT NULL;
+ALTER TABLE Profile ADD Options varchar(2000) NULL;

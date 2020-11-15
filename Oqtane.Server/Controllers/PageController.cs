@@ -131,7 +131,7 @@ namespace Oqtane.Controllers
                         foreach (Module module in modules)
                         {
                             var pageModule = _pageModules.GetPageModules(page.SiteId).FirstOrDefault(item => item.ModuleId == module.ModuleId);
-                            _pageModules.AddPageModule(new PageModule { PageId = page.PageId, ModuleId = pageModule.ModuleId, Title = pageModule.Title, Pane = pageModule.Pane, Order = pageModule.Order, ContainerType = pageModule.ContainerType });
+                            _pageModules.AddPageModule(new PageModule { PageId = page.PageId, ModuleId = pageModule.ModuleId, Title = pageModule.Title, Pane = pageModule.Pane, OrderVal = pageModule.OrderVal, ContainerType = pageModule.ContainerType });
                         }
                     }
                 }
@@ -160,7 +160,7 @@ namespace Oqtane.Controllers
                 page.Title = parent.Title;
                 page.Path = parent.Path;
                 page.ParentId = parent.PageId;
-                page.Order = 0;
+                page.OrderVal = 0;
                 page.IsNavigation = false;
                 page.Url = "";
                 page.ThemeType = parent.ThemeType;
@@ -202,7 +202,7 @@ namespace Oqtane.Controllers
                     pagemodule.ModuleId = module.ModuleId;
                     pagemodule.Title = pm.Title;
                     pagemodule.Pane = pm.Pane;
-                    pagemodule.Order = pm.Order;
+                    pagemodule.OrderVal = pm.OrderVal;
                     pagemodule.ContainerType = pm.ContainerType;
 
                     _pageModules.AddPageModule(pagemodule);
@@ -240,11 +240,11 @@ namespace Oqtane.Controllers
             {
                 int order = 1;
                 List<Page> pages = _pages.GetPages(siteid).ToList();
-                foreach (Page page in pages.Where(item => item.ParentId == parentid).OrderBy(item => item.Order))
+                foreach (Page page in pages.Where(item => item.ParentId == parentid).OrderBy(item => item.OrderVal))
                 {
-                    if (page.Order != order)
+                    if (page.OrderVal != order)
                     {
-                        page.Order = order;
+                        page.OrderVal = order;
                         _pages.UpdatePage(page);
                     }
                     order += 2;

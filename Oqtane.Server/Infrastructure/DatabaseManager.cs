@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
@@ -168,7 +168,7 @@ namespace Oqtane.Infrastructure
                     var dataDirectory = AppDomain.CurrentDomain.GetData("DataDirectory")?.ToString();
                     if (!Directory.Exists(dataDirectory)) Directory.CreateDirectory(dataDirectory);
 
-                    using (var dbc = new DbContext(new DbContextOptionsBuilder().UseSqlServer(NormalizeConnectionString(install.ConnectionString)).Options))
+                    using (var dbc = new DbContext(new DbContextOptionsBuilder().UseNpgsql(NormalizeConnectionString(install.ConnectionString)).Options))
                     {
                         // create empty database if it does not exist       
                         dbc.Database.EnsureCreated();
@@ -198,8 +198,8 @@ namespace Oqtane.Infrastructure
 
                 var upgradeConfig = DeployChanges
                 .To
-                .SqlDatabase(NormalizeConnectionString(install.ConnectionString))
-                .WithScriptsEmbeddedInAssembly(Assembly.GetExecutingAssembly(), s => s.Contains("Master.") && s.EndsWith(".sql",StringComparison.OrdinalIgnoreCase));
+                .PostgresqlDatabase(NormalizeConnectionString(install.ConnectionString))
+                .WithScriptsEmbeddedInAssembly(Assembly.GetExecutingAssembly(), s => s.Contains("Master.") && s.EndsWith(".sql", StringComparison.OrdinalIgnoreCase));
 
                 var upgrade = upgradeConfig.Build();
                 if (upgrade.IsUpgradeRequired())
@@ -235,7 +235,7 @@ namespace Oqtane.Infrastructure
 
             if (!string.IsNullOrEmpty(install.TenantName) && !string.IsNullOrEmpty(install.Aliases))
             {
-                using (var db = new InstallationContext(NormalizeConnectionString(_config.GetConnectionString(SettingKeys.ConnectionStringKey)))) 
+                using (var db = new InstallationContext(NormalizeConnectionString(_config.GetConnectionString(SettingKeys.ConnectionStringKey))))
                 {
                     Tenant tenant;
                     if (install.IsNewTenant)
@@ -282,14 +282,14 @@ namespace Oqtane.Infrastructure
             using (var scope = _serviceScopeFactory.CreateScope())
             {
                 var upgrades = scope.ServiceProvider.GetRequiredService<IUpgradeManager>();
-  
+
                 using (var db = new InstallationContext(NormalizeConnectionString(_config.GetConnectionString(SettingKeys.ConnectionStringKey))))
                 {
                     foreach (var tenant in db.Tenant.ToList())
                     {
                         MigrateScriptNamingConvention("Tenant", tenant.DBConnectionString);
 
-                        var upgradeConfig = DeployChanges.To.SqlDatabase(NormalizeConnectionString(tenant.DBConnectionString))
+                        var upgradeConfig = DeployChanges.To.PostgresqlDatabase(NormalizeConnectionString(tenant.DBConnectionString))
                             .WithScriptsEmbeddedInAssembly(Assembly.GetExecutingAssembly(), s => s.Contains("Tenant.") && s.EndsWith(".sql", StringComparison.OrdinalIgnoreCase));
 
                         var upgrade = upgradeConfig.Build();
@@ -472,7 +472,7 @@ namespace Oqtane.Infrastructure
                                         ParentId = folder.FolderId,
                                         Name = "My Folder",
                                         Path = Utilities.PathCombine(folder.Path, user.UserId.ToString(), Path.DirectorySeparatorChar.ToString()),
-                                        Order = 1,
+                                        OrderVal = 1,
                                         IsSystem = true,
                                         Permissions = new List<Permission>
                                         {
@@ -578,7 +578,7 @@ namespace Oqtane.Infrastructure
         private void MigrateScriptNamingConvention(string scriptType, string connectionString)
         {
             // migrate to new naming convention for scripts
-            var migrateConfig = DeployChanges.To.SqlDatabase(NormalizeConnectionString(connectionString))
+            var migrateConfig = DeployChanges.To.PostgresqlDatabase(NormalizeConnectionString(connectionString))
                 .WithScriptsEmbeddedInAssembly(Assembly.GetExecutingAssembly(), s => s == scriptType + ".00.00.00.00.sql");
             var migrate = migrateConfig.Build();
             if (migrate.IsUpgradeRequired())

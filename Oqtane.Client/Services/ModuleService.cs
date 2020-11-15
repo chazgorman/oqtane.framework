@@ -23,7 +23,7 @@ namespace Oqtane.Services
         {
             List<Module> modules = await GetJsonAsync<List<Module>>($"{Apiurl}?siteid={siteId}");
             modules = modules
-                .OrderBy(item => item.Order)
+                .OrderBy(item => item.OrderVal)
                 .ToList();
             return modules;
         }

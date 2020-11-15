@@ -185,7 +185,7 @@ namespace Oqtane.Controllers
                                 ParentId = folder.FolderId,
                                 Name = "My Folder",
                                 Path = Utilities.PathCombine(folder.Path, newUser.UserId.ToString(),Path.DirectorySeparatorChar.ToString()),
-                                Order = 1,
+                                OrderVal = 1,
                                 IsSystem = true,
                                 Permissions = new List<Permission>
                                 {

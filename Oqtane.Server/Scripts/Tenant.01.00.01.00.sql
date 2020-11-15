@@ -1,39 +1,35 @@
-/*  
-
-Version 1.0.1 Tenant migration script
+/* SQLINES DEMO *** Tenant migration script
 
 */
 
-CREATE UNIQUE NONCLUSTERED INDEX IX_Site ON [dbo].[Site]
+CREATE UNIQUE INDEX IX_Site ON Site
 	(
-	[TenantId],
-	[Name]
-	) ON [PRIMARY]
-GO
+	TenantId,
+	Name
+	)
+;
 
-CREATE UNIQUE NONCLUSTERED INDEX IX_Role ON [dbo].[Role]
+CREATE UNIQUE INDEX IX_Role ON Role
 	(
-	[SiteId],
-	[Name]
-	) ON [PRIMARY]
-GO
+	SiteId,
+	Name
+	)
+;
 
-CREATE UNIQUE NONCLUSTERED INDEX IX_Profile ON [dbo].[Profile]
+CREATE UNIQUE INDEX IX_Profile ON Profile
 	(
-	[SiteId],
-	[Name]
-	) ON [PRIMARY]
-GO
+	SiteId,
+	Name
+	)
+;
 
-CREATE UNIQUE NONCLUSTERED INDEX IX_File ON [dbo].[File]
+CREATE UNIQUE INDEX IX_File ON File
 	(
-	[FolderId],
-	[Name]
-	) ON [PRIMARY]
-GO
+	FolderId,
+	Name
+	)
+;
 
-ALTER TABLE [dbo].[Notification] ADD
-	[FromDisplayName] [nvarchar](50) NULL,
-	[FromEmail] [nvarchar](256) NULL,
-	[ToDisplayName] [nvarchar](50) NULL
-GO
+ALTER TABLE Notification ADD COLUMN FromDisplayName varchar(50) NULL;
+ALTER TABLE Notification ADD COLUMN FromEmail varchar(256) NULL;
+ALTER TABLE Notification ADD COLUMN ToDisplayName varchar(50) NULL;

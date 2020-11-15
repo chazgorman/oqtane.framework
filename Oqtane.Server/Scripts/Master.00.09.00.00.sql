@@ -1,110 +1,110 @@
-/*  
-
-Create tables
-
+/* SQLINES DEMO *** 
 */
-CREATE TABLE [dbo].[Tenant](
-	[TenantId] [int] IDENTITY(1,1) NOT NULL,
-	[Name] [nvarchar](100) NOT NULL,
-	[DBConnectionString] [nvarchar](1024) NOT NULL,
-	[Version] [nvarchar](50) NULL,
-	[CreatedBy] [nvarchar](256) NOT NULL,
-	[CreatedOn] [datetime] NOT NULL,
-	[ModifiedBy] [nvarchar](256) NOT NULL,
-	[ModifiedOn] [datetime] NOT NULL,
-  CONSTRAINT [PK_Tenant] PRIMARY KEY CLUSTERED 
+CREATE SEQUENCE Tenant_seq;
+
+CREATE TABLE Tenant(
+	TenantId int DEFAULT NEXTVAL ('Tenant_seq') NOT NULL,
+	Name Varchar(100) NOT NULL,
+	DBConnectionString Varchar(1024) NOT NULL,
+	Version Varchar(50) NULL,
+	CreatedBy Varchar(256) NOT NULL,
+	CreatedOn Timestamp(3) NOT NULL,
+	ModifiedBy Varchar(256) NOT NULL,
+	ModifiedOn Timestamp(3) NOT NULL,
+  CONSTRAINT PK_Tenant PRIMARY KEY 
   (
-	[TenantId] ASC
+	TenantId
   )
-)
-GO
+);
 
-CREATE TABLE [dbo].[Alias](
-	[AliasId] [int] IDENTITY(1,1) NOT NULL,
-	[Name] [nvarchar](200) NOT NULL,
-	[TenantId] [int] NOT NULL,
-	[SiteId] [int] NOT NULL,
-	[CreatedBy] [nvarchar](256) NOT NULL,
-	[CreatedOn] [datetime] NOT NULL,
-	[ModifiedBy] [nvarchar](256) NOT NULL,
-	[ModifiedOn] [datetime] NOT NULL,
-  CONSTRAINT [PK_Alias] PRIMARY KEY CLUSTERED 
+CREATE SEQUENCE Alias_seq;
+
+CREATE TABLE Alias(
+	AliasId int DEFAULT NEXTVAL ('Alias_seq') NOT NULL,
+	Name Varchar(200) NOT NULL,
+	TenantId int NOT NULL,
+	SiteId int NOT NULL,
+	CreatedBy Varchar(256) NOT NULL,
+	CreatedOn Timestamp(3) NOT NULL,
+	ModifiedBy Varchar(256) NOT NULL,
+	ModifiedOn Timestamp(3) NOT NULL,
+  CONSTRAINT PK_Alias PRIMARY KEY 
   (
-	[AliasId] ASC
+	AliasId
   )
-)
-GO
+);
 
 
-CREATE TABLE [dbo].[ModuleDefinition](
-	[ModuleDefinitionId] [int] IDENTITY(1,1) NOT NULL,
-	[ModuleDefinitionName] [nvarchar](200) NOT NULL,
-	[Name] [nvarchar](200) NULL,
-	[Description] [nvarchar](2000) NULL,
-	[Categories] [nvarchar](200) NULL,
-	[Version] [nvarchar](50) NULL,
-	[CreatedBy] [nvarchar](256) NOT NULL,
-	[CreatedOn] [datetime] NOT NULL,
-	[ModifiedBy] [nvarchar](256) NOT NULL,
-	[ModifiedOn] [datetime] NOT NULL,
-  CONSTRAINT [PK_ModuleDefinition] PRIMARY KEY CLUSTERED 
+CREATE SEQUENCE ModuleDefinition_seq;
+
+CREATE TABLE ModuleDefinition(
+	ModuleDefinitionId int DEFAULT NEXTVAL ('ModuleDefinition_seq') NOT NULL,
+	ModuleDefinitionName Varchar(200) NOT NULL,
+	Name Varchar(200) NULL,
+	Description Varchar(2000) NULL,
+	Categories Varchar(200) NULL,
+	Version Varchar(50) NULL,
+	CreatedBy Varchar(256) NOT NULL,
+	CreatedOn Timestamp(3) NOT NULL,
+	ModifiedBy Varchar(256) NOT NULL,
+	ModifiedOn Timestamp(3) NOT NULL,
+  CONSTRAINT PK_ModuleDefinition PRIMARY KEY 
   (
-	[ModuleDefinitionId] ASC
+	ModuleDefinitionId
   )
-)
-GO
+);
 
-CREATE TABLE [dbo].[Job] (
-	[JobId] [int] IDENTITY(1,1) NOT NULL,
-	[Name] [nvarchar](200) NOT NULL,
-	[JobType] [nvarchar](200) NOT NULL,
-	[Frequency] [char](1) NOT NULL,
-	[Interval] [int] NOT NULL,
-	[StartDate] [datetime] NULL,
-	[EndDate] [datetime] NULL,
-	[IsEnabled] [bit] NOT NULL,
-	[IsStarted] [bit] NOT NULL,
-	[IsExecuting] [bit] NOT NULL,
-	[NextExecution] [datetime] NULL,
-	[RetentionHistory] [int] NOT NULL,
-	[CreatedBy] [nvarchar](256) NOT NULL,
-	[CreatedOn] [datetime] NOT NULL,
-	[ModifiedBy] [nvarchar](256) NOT NULL,
-	[ModifiedOn] [datetime] NOT NULL,
-    CONSTRAINT [PK_Job] PRIMARY KEY CLUSTERED 
+CREATE SEQUENCE Job_seq;
+
+CREATE TABLE Job (
+	JobId int DEFAULT NEXTVAL ('Job_seq') NOT NULL,
+	Name Varchar(200) NOT NULL,
+	JobType Varchar(200) NOT NULL,
+	Frequency char(1) NOT NULL,
+	Interval int NOT NULL,
+	StartDate Timestamp(3) NULL,
+	EndDate Timestamp(3) NULL,
+	IsEnabled Boolean NOT NULL,
+	IsStarted Boolean NOT NULL,
+	IsExecuting Boolean NOT NULL,
+	NextExecution Timestamp(3) NULL,
+	RetentionHistory int NOT NULL,
+	CreatedBy Varchar(256) NOT NULL,
+	CreatedOn Timestamp(3) NOT NULL,
+	ModifiedBy Varchar(256) NOT NULL,
+	ModifiedOn Timestamp(3) NOT NULL,
+    CONSTRAINT PK_Job PRIMARY KEY 
     (
-	  [JobId] ASC
+	  JobId
     )
-)
-GO
+);
 
-CREATE TABLE [dbo].[JobLog] (
-	[JobLogId] [int] IDENTITY(1,1) NOT NULL,
-	[JobId] [int] NOT NULL,
-	[StartDate] [datetime] NOT NULL,
-	[FinishDate] [datetime] NULL,
-	[Succeeded] [bit] NULL,
-	[Notes] [nvarchar](max) NULL,
-    CONSTRAINT [PK_JobLog] PRIMARY KEY CLUSTERED 
+CREATE SEQUENCE JobLog_seq;
+
+CREATE TABLE JobLog (
+	JobLogId int DEFAULT NEXTVAL ('JobLog_seq') NOT NULL,
+	JobId int NOT NULL,
+	StartDate Timestamp(3) NOT NULL,
+	FinishDate Timestamp(3) NULL,
+	Succeeded Boolean NULL,
+	Notes Text NULL,
+    CONSTRAINT PK_JobLog PRIMARY KEY 
     (
-	  [JobLogId] ASC
+	  JobLogId
     ) 
-)
-GO
+);
 
-/*  
-
-Create foreign key relationships
+/* SQLINES DEMO ***  key relationships
 
 */
-ALTER TABLE [dbo].[Alias]  WITH CHECK ADD  CONSTRAINT [FK_Alias_Tenant] FOREIGN KEY([TenantId])
-REFERENCES [dbo].[Tenant] ([TenantId])
-ON DELETE CASCADE
-GO
+ALTER TABLE Alias ADD CONSTRAINT FK_Alias_Tenant FOREIGN KEY(TenantId)
+REFERENCES Tenant (TenantId)
+ON DELETE CASCADE;
+ 
 
-ALTER TABLE [dbo].[JobLog]  WITH NOCHECK ADD CONSTRAINT [FK_JobLog_Job] FOREIGN KEY([JobId])
-REFERENCES [dbo].[Job] ([JobId])
-ON DELETE CASCADE
-GO
+ALTER TABLE JobLog ADD CONSTRAINT FK_JobLog_Job FOREIGN KEY(JobId)
+REFERENCES Job (JobId)
+ON DELETE CASCADE;
+ 
 
 

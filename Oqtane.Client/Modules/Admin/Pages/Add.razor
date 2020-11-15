@@ -1,4 +1,4 @@
-﻿@namespace Oqtane.Modules.Admin.Pages
+@namespace Oqtane.Modules.Admin.Pages
 @inherits ModuleBase
 @inject NavigationManager NavigationManager
 @inject IPageService PageService
@@ -344,18 +344,18 @@
                 switch (_insert)
                 {
                     case "<<":
-                        page.Order = 0;
+                        page.OrderVal = 0;
                         break;
                     case "<":
                         child = PageState.Pages.Where(item => item.PageId == _childid).FirstOrDefault();
-                        page.Order = child.Order - 1;
+                        page.OrderVal = child.OrderVal - 1;
                         break;
                     case ">":
                         child = PageState.Pages.Where(item => item.PageId == _childid).FirstOrDefault();
-                        page.Order = child.Order + 1;
+                        page.OrderVal = child.OrderVal + 1;
                         break;
                     case ">>":
-                        page.Order = int.MaxValue;
+                        page.OrderVal = int.MaxValue;
                         break;
                 }
 

@@ -40,7 +40,7 @@ namespace Oqtane.Models
         [NotMapped]
         public string Pane { get; set; }
         [NotMapped]
-        public int Order { get; set; }
+        public int OrderVal { get; set; }
         [NotMapped]
         public string ContainerType { get; set; }
 

@@ -1,4 +1,4 @@
-﻿@namespace Oqtane.Themes.Controls
+@namespace Oqtane.Themes.Controls
 @inherits ThemeControlBase
 @inject NavigationManager NavigationManager
 @inject IUserService UserService
@@ -384,7 +384,7 @@
                 }
 
                 pageModule.Pane = Pane;
-                pageModule.Order = int.MaxValue;
+                pageModule.OrderVal = int.MaxValue;
                 pageModule.ContainerType = ContainerType;
 
                 if (pageModule.ContainerType == PageState.Site.DefaultContainerType)

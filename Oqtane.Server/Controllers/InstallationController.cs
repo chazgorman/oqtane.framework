@@ -39,7 +39,7 @@ namespace Oqtane.Controllers
         {
             var installation = new Installation {Success = false, Message = ""};
 
-            if (ModelState.IsValid && (User.IsInRole(RoleNames.Host) || string.IsNullOrEmpty(_config.GetConnectionString(SettingKeys.ConnectionStringKey))))
+            if (ModelState.IsValid && (User.IsInRole(RoleNames.Host) || !string.IsNullOrEmpty(_config.GetConnectionString(SettingKeys.ConnectionStringKey))))
             {
                 installation = _databaseManager.Install(config);
             }

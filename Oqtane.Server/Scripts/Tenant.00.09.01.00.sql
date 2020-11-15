@@ -1,14 +1,7 @@
-/*  
-
-Version 0.9.1 migration script
+/* SQLINES DEMO *** migration script
 
 */
 
-ALTER TABLE [dbo].[Module] ADD
-	[AllPages] [bit] NULL
-GO
-
-UPDATE [dbo].[Module]
-SET [AllPages] = 0
-GO
+ALTER TABLE Module ADD AllPages bool NULL DEFAULT false;
+ 
 

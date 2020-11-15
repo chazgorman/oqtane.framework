@@ -1,18 +1,13 @@
-/*  
-
-Version 0.9.2 migration script
+/* SQLINES DEMO *** migration script
 
 */
 
-ALTER TABLE [dbo].[Role]
-ALTER COLUMN [Description] VARCHAR (256) NOT NULL
-GO
+ALTER TABLE Role ALTER COLUMN Description TYPE VARCHAR(256);
+ALTER TABLE Role ALTER COLUMN Description SET NOT NULL;
 
-ALTER TABLE [dbo].[Page] ADD
-	[DefaultContainerType] [nvarchar](200) NULL
-GO
 
-UPDATE [dbo].[Page]
-SET [DefaultContainerType] = ''
-GO
+ALTER TABLE Page ADD COLUMN DefaultContainerType TEXT NULL;
+
+UPDATE Page SET DefaultContainerType = '';
+ 
 

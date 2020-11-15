@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Oqtane.Models
@@ -10,7 +10,7 @@ namespace Oqtane.Models
         public int? ParentId { get; set; }
         public string Name { get; set; }
         public string Path { get; set; }
-        public int Order { get; set; }
+        public int OrderVal { get; set; }
         public bool IsSystem { get; set; }
 
         public string CreatedBy { get; set; }

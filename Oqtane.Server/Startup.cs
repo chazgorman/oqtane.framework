@@ -132,9 +132,13 @@ namespace Oqtane
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddDbContext<MasterDBContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")
-                    .Replace("|DataDirectory|", AppContext.GetData("DataDirectory")?.ToString())
-                ));
+                options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
+
+            //services.AddDbContext<MasterDBContext>(options =>
+            //    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")
+            //        .Replace("|DataDirectory|", AppDomain.CurrentDomain.GetData("DataDirectory")?.ToString())
+            //    ));
+
             services.AddDbContext<TenantDBContext>(options => { });
 
             services.AddIdentityCore<IdentityUser>(options => { })

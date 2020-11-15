@@ -1,15 +1,21 @@
-﻿using System;
-using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
+using Npgsql;
+using Npgsql.NameTranslation;
 using Oqtane.Models;
+using System;
+using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Oqtane.Repository
 {
-    public class DBContextBase :  IdentityUserContext<IdentityUser> 
+    public class DBContextBase : IdentityUserContext<IdentityUser>
     {
+        static readonly Regex _keysRegex = new Regex("^(PK|FK|IX)_", RegexOptions.Compiled);
+
         private Tenant _tenant;
         private IHttpContextAccessor _accessor;
 
@@ -19,11 +25,20 @@ namespace Oqtane.Repository
             _accessor = accessor;
         }
 
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+        }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(_tenant.DBConnectionString
-                    .Replace("|DataDirectory|", AppDomain.CurrentDomain.GetData("DataDirectory")?.ToString())
-            );
+            //optionsBuilder.UseSqlServer(_tenant.DBConnectionString
+            //        .Replace("|DataDirectory|", AppDomain.CurrentDomain.GetData("DataDirectory")?.ToString())
+            //);
+
+            optionsBuilder
+                .UseNpgsql(_tenant.DBConnectionString)
+                .UseLowerCaseNamingConvention();
+
             base.OnConfiguring(optionsBuilder);
         }
 
@@ -41,7 +56,7 @@ namespace Oqtane.Repository
             var created = ChangeTracker.Entries()
                 .Where(x => x.State == EntityState.Added);
 
-            foreach(var item in created)
+            foreach (var item in created)
             {
                 if (item.Entity is IAuditable)
                 {
